@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import AnimatedSection from "./AnimatedSection";
-import { Trophy, Target, Users, Coffee } from "lucide-react";
+import SpotlightCard from "./SpotlightCard";
+import GridPattern from "./GridPattern";
+import { Trophy, Target, Users, Coffee, Code, Smartphone, Server, Brain, Bot, Monitor } from "lucide-react";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Trophy, Target, Users, Coffee,
 };
+
+const roleIcons: React.FC<{ className?: string }>[] = [Code, Smartphone, Monitor, Server, Brain, Bot];
 
 interface Stat {
   icon: string;
@@ -56,10 +60,10 @@ const Counter = ({ value }: { value: string }) => {
     return () => observer.disconnect();
   }, [num]);
 
-  if (value === "∞") return <span className="text-3xl font-heading font-bold text-foreground">∞</span>;
+  if (value === "∞") return <span className="text-4xl font-heading font-bold text-foreground">∞</span>;
 
   return (
-    <span ref={ref} className="text-3xl font-heading font-bold text-foreground">
+    <span ref={ref} className="text-4xl font-heading font-bold text-foreground">
       {count}{suffix}
     </span>
   );
@@ -67,32 +71,43 @@ const Counter = ({ value }: { value: string }) => {
 
 const About = ({ about, stats, roles }: AboutProps) => {
   return (
-    <AnimatedSection id="about" className="py-24 sm:py-32">
+    <AnimatedSection id="about" className="py-24 sm:py-32 relative">
+      <GridPattern />
+      
+      {/* Decorative gradient orb */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
+
       <div className="container mx-auto px-6">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-5xl font-heading font-bold mb-16 text-center text-foreground"
+          className="flex items-center justify-center gap-4 mb-16"
         >
-          About <span className="text-primary">Me</span>
-        </motion.h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/40" />
+          <h2 className="text-3xl sm:text-5xl font-heading font-bold text-foreground">
+            About <span className="text-primary">Me</span>
+          </h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/40" />
+        </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-12 mb-20">
-          {/* Bio */}
+          {/* Bio with styled quote */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-3"
+            className="lg:col-span-3 relative"
           >
-            <p className="text-muted-foreground leading-relaxed text-base sm:text-lg font-body">
+            <div className="absolute -left-4 top-0 bottom-0 w-1 rounded-full bg-gradient-to-b from-primary via-primary/40 to-transparent" />
+            <p className="text-muted-foreground leading-relaxed text-base sm:text-lg font-body pl-6">
               {about}
             </p>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats with spotlight effect */}
           <div className="lg:col-span-2 grid grid-cols-2 gap-4">
             {stats.map((stat, i) => {
               const Icon = iconMap[stat.icon] || Trophy;
@@ -103,34 +118,42 @@ const About = ({ about, stats, roles }: AboutProps) => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.5 }}
-                  whileHover={{ y: -4 }}
-                  className="glass rounded-2xl p-5 text-center flex flex-col items-center gap-2"
                 >
-                  <Icon className="w-6 h-6 text-primary" />
-                  <Counter value={stat.value} />
-                  <span className="text-xs text-muted-foreground font-body">{stat.label}</span>
+                  <SpotlightCard className="glass rounded-2xl p-5 text-center flex flex-col items-center gap-2 h-full">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-1">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <Counter value={stat.value} />
+                    <span className="text-xs text-muted-foreground font-body">{stat.label}</span>
+                  </SpotlightCard>
                 </motion.div>
               );
             })}
           </div>
         </div>
 
-        {/* Roles */}
+        {/* Roles with icons and spotlight */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {roles.map((role, i) => (
-            <motion.div
-              key={role.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              whileHover={{ y: -6, boxShadow: "0 20px 40px -12px hsl(268 100% 84.5% / 0.15)" }}
-              className="glass rounded-2xl p-6 cursor-default"
-            >
-              <h3 className="font-heading font-semibold text-foreground mb-2">{role.title}</h3>
-              <p className="text-sm text-muted-foreground font-body">{role.description}</p>
-            </motion.div>
-          ))}
+          {roles.map((role, i) => {
+            const RoleIcon = roleIcons[i % roleIcons.length];
+            return (
+              <motion.div
+                key={role.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+              >
+                <SpotlightCard className="glass rounded-2xl p-6 cursor-default h-full group hover:border-primary/20 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                    <RoleIcon className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-heading font-semibold text-foreground mb-2">{role.title}</h3>
+                  <p className="text-sm text-muted-foreground font-body">{role.description}</p>
+                </SpotlightCard>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </AnimatedSection>

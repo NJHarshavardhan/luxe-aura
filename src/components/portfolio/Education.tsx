@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
-import { GraduationCap, MapPin } from "lucide-react";
+import SpotlightCard from "./SpotlightCard";
+import { GraduationCap, MapPin, Award } from "lucide-react";
 
 interface EducationItem {
   school: string;
@@ -16,16 +17,22 @@ interface EducationProps {
 
 const Education = ({ education }: EducationProps) => {
   return (
-    <AnimatedSection id="education" className="py-24 sm:py-32">
+    <AnimatedSection id="education" className="py-24 sm:py-32 relative">
+      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl -z-10" />
+
       <div className="container mx-auto px-6">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-5xl font-heading font-bold mb-16 text-center text-foreground"
+          className="flex items-center justify-center gap-4 mb-16"
         >
-          <span className="text-primary">Education</span>
-        </motion.h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/40" />
+          <h2 className="text-3xl sm:text-5xl font-heading font-bold text-foreground">
+            <span className="text-primary">Education</span>
+          </h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/40" />
+        </motion.div>
 
         <div className="max-w-2xl mx-auto space-y-6">
           {education.map((edu, i) => (
@@ -35,25 +42,27 @@ const Education = ({ education }: EducationProps) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="glass rounded-2xl p-6"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <GraduationCap className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-semibold text-foreground">{edu.degree}</h3>
-                  <p className="text-sm text-muted-foreground font-body mt-1">{edu.school}</p>
-                  <div className="flex flex-wrap gap-4 mt-2 text-xs text-muted-foreground font-body">
-                    <span>{edu.period}</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" /> {edu.location}
-                    </span>
-                    <span className="text-primary font-medium">{edu.grade}</span>
+              <SpotlightCard className="glass rounded-2xl p-6 group hover:border-primary/20 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <GraduationCap className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="font-heading font-semibold text-foreground group-hover:text-primary transition-colors">{edu.degree}</h3>
+                    <p className="text-sm text-muted-foreground font-body mt-1">{edu.school}</p>
+                    <div className="flex flex-wrap gap-4 mt-3 text-xs text-muted-foreground font-body">
+                      <span>{edu.period}</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {edu.location}
+                      </span>
+                      <span className="flex items-center gap-1 text-primary font-medium">
+                        <Award className="w-3 h-3" /> {edu.grade}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </motion.div>
           ))}
         </div>

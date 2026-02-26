@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowDown, ExternalLink } from "lucide-react";
+import AuroraBackground from "./AuroraBackground";
+import FloatingParticles from "./FloatingParticles";
+import MagneticButton from "./MagneticButton";
+import GridPattern from "./GridPattern";
 
 interface HeroProps {
   name: string;
@@ -22,24 +26,31 @@ const Hero = ({ name, titles, about }: HeroProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background blobs */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl animate-blob" />
-        <div className="absolute bottom-20 left-[10%] w-[350px] h-[350px] rounded-full bg-accent/15 blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl animate-blob animation-delay-4000" />
-      </div>
+      {/* Layered backgrounds */}
+      <AuroraBackground speed={0.8} />
+      <FloatingParticles count={30} />
+      <GridPattern />
 
-      <div className="container mx-auto px-6">
+      {/* Decorative orbs */}
+      <div className="absolute top-20 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/8 blur-3xl animate-blob" />
+      <div className="absolute bottom-20 left-[10%] w-[350px] h-[350px] rounded-full bg-accent/10 blur-3xl animate-blob animation-delay-2000" />
+      <div className="absolute top-1/3 left-1/4 w-[200px] h-[200px] rounded-full bg-primary/5 blur-2xl animate-float" />
+
+      {/* Radial gradient overlay */}
+      <div className="absolute inset-0 -z-5 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background))_70%)]" />
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          {/* Greeting badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-muted-foreground text-lg mb-4 font-body"
+            className="inline-flex items-center gap-2 px-4 py-1.5 glass rounded-full mb-6"
           >
-            Hello, I'm
-          </motion.p>
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-sm text-muted-foreground font-body">Available for opportunities</span>
+          </motion.div>
 
           {/* Name with staggered letters */}
           <motion.h1
@@ -55,8 +66,8 @@ const Hero = ({ name, titles, about }: HeroProps) => {
               <motion.span
                 key={i}
                 variants={{
-                  hidden: { opacity: 0, y: 50 },
-                  visible: { opacity: 1, y: 0 },
+                  hidden: { opacity: 0, y: 50, rotateX: -90 },
+                  visible: { opacity: 1, y: 0, rotateX: 0 },
                 }}
                 transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
                 className="inline-block"
@@ -90,29 +101,33 @@ const Hero = ({ name, titles, about }: HeroProps) => {
             {firstLine}
           </motion.p>
 
-          {/* CTA buttons */}
+          {/* CTA buttons with magnetic effect */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 30px hsl(268 100% 84.5% / 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 cursor-pointer"
-            >
-              View Projects <ExternalLink className="w-4 h-4" />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3 glass rounded-full font-medium text-foreground flex items-center gap-2 cursor-pointer"
-            >
-              Contact Me
-            </motion.button>
+            <MagneticButton strength={0.2}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 cursor-pointer shadow-[0_0_30px_hsl(268_100%_84.5%/0.2)] hover:shadow-[0_0_50px_hsl(268_100%_84.5%/0.35)] transition-shadow"
+              >
+                View Projects <ExternalLink className="w-4 h-4" />
+              </motion.button>
+            </MagneticButton>
+            <MagneticButton strength={0.2}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                className="px-8 py-3 glass rounded-full font-medium text-foreground flex items-center gap-2 cursor-pointer hover:border-primary/40 transition-colors"
+              >
+                Contact Me
+              </motion.button>
+            </MagneticButton>
           </motion.div>
         </div>
 
@@ -123,10 +138,7 @@ const Hero = ({ name, titles, about }: HeroProps) => {
           transition={{ delay: 2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          >
+          <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
             <ArrowDown className="w-5 h-5 text-muted-foreground" />
           </motion.div>
         </motion.div>

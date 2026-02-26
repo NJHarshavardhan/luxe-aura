@@ -11,6 +11,7 @@ import Experience from "@/components/portfolio/Experience";
 import Education from "@/components/portfolio/Education";
 import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
+import NoiseOverlay from "@/components/portfolio/NoiseOverlay";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +25,7 @@ const Index = () => {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+      <NoiseOverlay />
       <LoadingScreen isLoading={isLoading} name={d.name} />
       {!isLoading && (
         <>

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, X, Smartphone, Apple, Store } from "lucide-react";
+import { ExternalLink, X, Smartphone, Apple, Store, Layers } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import SpotlightCard from "./SpotlightCard";
+import GridPattern from "./GridPattern";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Smartphone, Apple, Store,
@@ -32,16 +34,24 @@ const Projects = ({ projects }: ProjectsProps) => {
   const filtered = filter === "All" ? projects : projects.filter((p) => p.type === filter);
 
   return (
-    <AnimatedSection id="projects" className="py-24 sm:py-32">
+    <AnimatedSection id="projects" className="py-24 sm:py-32 relative">
+      <GridPattern />
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
+
       <div className="container mx-auto px-6">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-5xl font-heading font-bold mb-12 text-center text-foreground"
+          className="flex items-center justify-center gap-4 mb-12"
         >
-          My <span className="text-primary">Projects</span>
-        </motion.h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/40" />
+          <h2 className="text-3xl sm:text-5xl font-heading font-bold text-foreground">
+            My <span className="text-primary">Projects</span>
+          </h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/40" />
+        </motion.div>
 
         {/* Filters */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -51,9 +61,9 @@ const Projects = ({ projects }: ProjectsProps) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter(type)}
-              className={`px-5 py-2 rounded-full text-sm font-body cursor-pointer transition-colors ${
+              className={`px-5 py-2 rounded-full text-sm font-body cursor-pointer transition-all duration-300 ${
                 filter === type
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground shadow-[0_0_20px_hsl(268_100%_84.5%/0.25)]"
                   : "glass text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -73,26 +83,36 @@ const Projects = ({ projects }: ProjectsProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                whileHover={{ y: -8, boxShadow: "0 25px 50px -12px hsl(268 100% 84.5% / 0.15)" }}
-                onClick={() => setSelected(project)}
-                className="glass rounded-2xl p-6 cursor-pointer group"
               >
-                <span className="text-xs font-body text-primary font-medium uppercase tracking-wider">
-                  {project.type}
-                </span>
-                <h3 className="font-heading font-semibold text-lg text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-sm text-muted-foreground font-body line-clamp-2">
-                  {project.description[0]}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.technologies.split(",").slice(0, 3).map((t) => (
-                    <span key={t.trim()} className="text-xs px-2 py-1 rounded-md bg-secondary text-secondary-foreground font-body">
-                      {t.trim()}
-                    </span>
-                  ))}
-                </div>
+                <SpotlightCard
+                  className="glass rounded-2xl p-6 cursor-pointer group h-full hover:border-primary/20 transition-colors"
+                >
+                  <div onClick={() => setSelected(project)} className="h-full flex flex-col">
+                    {/* Project type badge */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Layers className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="text-xs font-body text-primary font-medium uppercase tracking-wider">
+                        {project.type}
+                      </span>
+                    </div>
+
+                    <h3 className="font-heading font-semibold text-lg text-foreground mb-3 group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground font-body line-clamp-2 flex-grow">
+                      {project.description[0]}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {project.technologies.split(",").slice(0, 3).map((t) => (
+                        <span key={t.trim()} className="text-xs px-2.5 py-1 rounded-lg bg-secondary text-secondary-foreground font-body">
+                          {t.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -105,7 +125,7 @@ const Projects = ({ projects }: ProjectsProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md"
               onClick={() => setSelected(null)}
             >
               <motion.div
@@ -114,7 +134,7 @@ const Projects = ({ projects }: ProjectsProps) => {
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
                 onClick={(e) => e.stopPropagation()}
-                className="glass-strong rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto relative"
+                className="glass-strong rounded-2xl p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto relative border border-primary/10"
               >
                 <button
                   onClick={() => setSelected(null)}
@@ -123,17 +143,23 @@ const Projects = ({ projects }: ProjectsProps) => {
                   <X className="w-4 h-4 text-foreground" />
                 </button>
 
-                <span className="text-xs font-body text-primary font-medium uppercase tracking-wider">
-                  {selected.type}
-                </span>
-                <h3 className="text-2xl font-heading font-bold text-foreground mt-2 mb-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Layers className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-xs font-body text-primary font-medium uppercase tracking-wider">
+                    {selected.type}
+                  </span>
+                </div>
+
+                <h3 className="text-2xl font-heading font-bold text-foreground mb-4">
                   {selected.title}
                 </h3>
 
                 <ul className="space-y-2 mb-6">
                   {selected.description.map((d, i) => (
                     <li key={i} className="text-sm text-muted-foreground font-body flex gap-2">
-                      <span className="text-primary mt-1">•</span>
+                      <span className="text-primary mt-1 shrink-0">▸</span>
                       {d}
                     </li>
                   ))}
@@ -150,14 +176,13 @@ const Projects = ({ projects }: ProjectsProps) => {
                   </div>
                 </div>
 
-                {/* Links */}
                 <div className="flex flex-wrap gap-3">
                   {selected.link_1 && (
                     <a
                       href={selected.link_1}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity shadow-[0_0_20px_hsl(268_100%_84.5%/0.2)]"
                     >
                       {selected.icon_1 && iconMap[selected.icon_1] ? (() => {
                         const Icon = iconMap[selected.icon_1!];

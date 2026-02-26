@@ -2,7 +2,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import AnimatedSection from "./AnimatedSection";
-import { Mail, Linkedin, Github, Phone, Send, CheckCircle } from "lucide-react";
+import SpotlightCard from "./SpotlightCard";
+import GridPattern from "./GridPattern";
+import { Mail, Linkedin, Github, Phone, Send, CheckCircle, Sparkles } from "lucide-react";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -25,6 +27,7 @@ const Contact = ({ contact }: ContactProps) => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [focused, setFocused] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +42,6 @@ const Contact = ({ contact }: ContactProps) => {
     }
     setErrors({});
     setStatus("sending");
-
-    // For now, simulate send — will integrate edge function later
     await new Promise((r) => setTimeout(r, 1500));
     setStatus("sent");
     setForm({ name: "", email: "", message: "" });
@@ -55,16 +56,32 @@ const Contact = ({ contact }: ContactProps) => {
   ];
 
   return (
-    <AnimatedSection id="contact" className="py-24 sm:py-32">
+    <AnimatedSection id="contact" className="py-24 sm:py-32 relative">
+      <GridPattern />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
+
       <div className="container mx-auto px-6">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-5xl font-heading font-bold mb-16 text-center text-foreground"
+          className="flex items-center justify-center gap-4 mb-4"
         >
-          Get in <span className="text-primary">Touch</span>
-        </motion.h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/40" />
+          <h2 className="text-3xl sm:text-5xl font-heading font-bold text-foreground">
+            Get in <span className="text-primary">Touch</span>
+          </h2>
+          <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/40" />
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center text-muted-foreground font-body mb-16 flex items-center justify-center gap-2"
+        >
+          <Sparkles className="w-4 h-4 text-primary" />
+          Let's build something amazing together
+        </motion.p>
 
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-12">
           {/* Form */}
@@ -76,29 +93,36 @@ const Contact = ({ contact }: ContactProps) => {
             className="space-y-5"
           >
             {(["name", "email", "message"] as const).map((field) => (
-              <div key={field}>
+              <div key={field} className="relative">
                 <motion.label
-                  className="text-sm font-body text-muted-foreground mb-1 block capitalize"
-                  whileFocus={{ color: "hsl(268 100% 84.5%)" }}
+                  className={`text-sm font-body mb-1 block capitalize transition-colors duration-300 ${
+                    focused === field ? "text-primary" : "text-muted-foreground"
+                  }`}
                 >
                   {field}
                 </motion.label>
                 {field === "message" ? (
-                  <motion.textarea
-                    whileFocus={{ boxShadow: "0 0 0 2px hsl(268 100% 84.5% / 0.3)" }}
+                  <textarea
                     rows={5}
                     value={form[field]}
+                    onFocus={() => setFocused(field)}
+                    onBlur={() => setFocused(null)}
                     onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                    className="w-full px-4 py-3 glass rounded-xl text-foreground font-body resize-none outline-none focus:border-primary transition-all bg-transparent"
+                    className={`w-full px-4 py-3 glass rounded-xl text-foreground font-body resize-none outline-none transition-all bg-transparent ${
+                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(268_100%_84.5%/0.15)]" : ""
+                    }`}
                     placeholder={`Your ${field}...`}
                   />
                 ) : (
-                  <motion.input
-                    whileFocus={{ boxShadow: "0 0 0 2px hsl(268 100% 84.5% / 0.3)" }}
+                  <input
                     type={field === "email" ? "email" : "text"}
                     value={form[field]}
+                    onFocus={() => setFocused(field)}
+                    onBlur={() => setFocused(null)}
                     onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                    className="w-full px-4 py-3 glass rounded-xl text-foreground font-body outline-none focus:border-primary transition-all bg-transparent"
+                    className={`w-full px-4 py-3 glass rounded-xl text-foreground font-body outline-none transition-all bg-transparent ${
+                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(268_100%_84.5%/0.15)]" : ""
+                    }`}
                     placeholder={`Your ${field}...`}
                   />
                 )}
@@ -113,7 +137,7 @@ const Contact = ({ contact }: ContactProps) => {
               disabled={status === "sending" || status === "sent"}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-medium flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-opacity"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-medium flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all shadow-[0_0_25px_hsl(268_100%_84.5%/0.2)] hover:shadow-[0_0_40px_hsl(268_100%_84.5%/0.35)]"
             >
               {status === "sending" ? (
                 <motion.div
@@ -144,22 +168,22 @@ const Contact = ({ contact }: ContactProps) => {
               Feel free to reach out through any of these channels. I'm always open to discussing new projects and opportunities.
             </p>
             {links.map((link) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                whileHover={{ x: 6, boxShadow: "0 10px 30px -10px hsl(268 100% 84.5% / 0.15)" }}
-                className="glass rounded-xl p-4 flex items-center gap-4 group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <link.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground font-body">{link.label}</p>
-                  <p className="text-sm font-body text-foreground">{link.text}</p>
-                </div>
-              </motion.a>
+              <SpotlightCard key={link.label} className="glass rounded-xl">
+                <a
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="p-4 flex items-center gap-4 group"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <link.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground font-body">{link.label}</p>
+                    <p className="text-sm font-body text-foreground group-hover:text-primary transition-colors">{link.text}</p>
+                  </div>
+                </a>
+              </SpotlightCard>
             ))}
           </motion.div>
         </div>

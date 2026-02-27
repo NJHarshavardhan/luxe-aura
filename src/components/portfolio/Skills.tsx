@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
+import CodeBackground from "./CodeBackground";
 
 interface SkillsProps {
   skills: Record<string, string[]>;
@@ -29,7 +30,7 @@ const categoryEmojis: Record<string, string> = {
 const Skills = ({ skills }: SkillsProps) => {
   return (
     <AnimatedSection id="skills" className="py-24 sm:py-32 relative">
-      {/* Gradient background */}
+      <CodeBackground />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl -z-10" />
 

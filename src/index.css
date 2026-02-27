@@ -115,6 +115,11 @@
   50% { box-shadow: 0 0 40px hsl(268 100% 84.5% / 0.4); }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .animate-blob {
   animation: blob 7s infinite;
 }
@@ -125,6 +130,11 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+  background-size: 200% 100%;
 }
 
 .animation-delay-2000 {

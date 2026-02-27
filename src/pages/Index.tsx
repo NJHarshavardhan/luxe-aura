@@ -12,6 +12,7 @@ import Education from "@/components/portfolio/Education";
 import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
 import NoiseOverlay from "@/components/portfolio/NoiseOverlay";
+import SectionDivider from "@/components/portfolio/SectionDivider";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,11 +33,17 @@ const Index = () => {
           <Header />
           <main>
             <Hero name={d.name} titles={d.titles} about={d.about} />
+            <SectionDivider />
             <About about={d.about} stats={d.stats} roles={d.roles} />
+            <SectionDivider />
             <Skills skills={d.technical_skills} />
+            <SectionDivider />
             <Projects projects={d.projects} />
+            <SectionDivider />
             <Experience experience={d.experience} />
+            <SectionDivider />
             <Education education={d.education} />
+            <SectionDivider />
             <Contact contact={d.contact} />
           </main>
           <Footer name={d.name} contact={d.contact} />

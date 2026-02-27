@@ -48,7 +48,7 @@ const Hero = ({ name, titles, about }: HeroProps) => {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 glass rounded-full mb-6"
           >
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-sm text-muted-foreground font-body">Available for opportunities</span>
           </motion.div>
 
@@ -113,7 +113,7 @@ const Hero = ({ name, titles, about }: HeroProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 cursor-pointer shadow-[0_0_30px_hsl(268_100%_84.5%/0.2)] hover:shadow-[0_0_50px_hsl(268_100%_84.5%/0.35)] transition-shadow"
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium flex items-center gap-2 cursor-pointer shadow-[0_0_30px_hsl(var(--ring)/0.25)] hover:shadow-[0_0_50px_hsl(var(--ring)/0.4)] transition-shadow"
               >
                 View Projects <ExternalLink className="w-4 h-4" />
               </motion.button>

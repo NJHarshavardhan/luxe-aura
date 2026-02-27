@@ -109,7 +109,7 @@ const Contact = ({ contact }: ContactProps) => {
                     onBlur={() => setFocused(null)}
                     onChange={(e) => setForm({ ...form, [field]: e.target.value })}
                     className={`w-full px-4 py-3 glass rounded-xl text-foreground font-body resize-none outline-none transition-all bg-transparent ${
-                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(268_100%_84.5%/0.15)]" : ""
+                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(var(--ring)/0.15)]" : ""
                     }`}
                     placeholder={`Your ${field}...`}
                   />
@@ -121,7 +121,7 @@ const Contact = ({ contact }: ContactProps) => {
                     onBlur={() => setFocused(null)}
                     onChange={(e) => setForm({ ...form, [field]: e.target.value })}
                     className={`w-full px-4 py-3 glass rounded-xl text-foreground font-body outline-none transition-all bg-transparent ${
-                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(268_100%_84.5%/0.15)]" : ""
+                      focused === field ? "border-primary/40 shadow-[0_0_0_2px_hsl(var(--ring)/0.15)]" : ""
                     }`}
                     placeholder={`Your ${field}...`}
                   />
@@ -137,7 +137,7 @@ const Contact = ({ contact }: ContactProps) => {
               disabled={status === "sending" || status === "sent"}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-medium flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all shadow-[0_0_25px_hsl(268_100%_84.5%/0.2)] hover:shadow-[0_0_40px_hsl(268_100%_84.5%/0.35)]"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-medium flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 transition-all shadow-[0_0_25px_hsl(var(--ring)/0.25)] hover:shadow-[0_0_40px_hsl(var(--ring)/0.4)]"
             >
               {status === "sending" ? (
                 <motion.div

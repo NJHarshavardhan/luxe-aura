@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
 import GridPattern from "./GridPattern";
+import CodeBackground from "./CodeBackground";
 import { Trophy, Target, Users, Coffee, Code, Smartphone, Server, Brain, Bot, Monitor } from "lucide-react";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
@@ -73,6 +74,7 @@ const About = ({ about, stats, roles }: AboutProps) => {
   return (
     <AnimatedSection id="about" className="py-24 sm:py-32 relative">
       <GridPattern />
+      <CodeBackground />
       
       {/* Decorative gradient orb */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />

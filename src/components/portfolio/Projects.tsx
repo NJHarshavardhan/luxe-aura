@@ -4,6 +4,7 @@ import { ExternalLink, X, Smartphone, Apple, Store, Layers } from "lucide-react"
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
 import GridPattern from "./GridPattern";
+import CodeBackground from "./CodeBackground";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Smartphone, Apple, Store,
@@ -36,6 +37,7 @@ const Projects = ({ projects }: ProjectsProps) => {
   return (
     <AnimatedSection id="projects" className="py-24 sm:py-32 relative">
       <GridPattern />
+      <CodeBackground />
       <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
 

@@ -5,6 +5,7 @@ import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
 import GridPattern from "./GridPattern";
 import CodeBackground from "./CodeBackground";
+import projectsBg from "@/assets/projects-bg.jpg";
 
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Smartphone, Apple, Store,
@@ -35,9 +36,13 @@ const Projects = ({ projects }: ProjectsProps) => {
   const filtered = filter === "All" ? projects : projects.filter((p) => p.type === filter);
 
   return (
-    <AnimatedSection id="projects" className="py-24 sm:py-32 relative">
+    <AnimatedSection id="projects" className="py-24 sm:py-32 relative overflow-hidden">
       <GridPattern />
       <CodeBackground />
+      <div className="absolute inset-0 -z-20">
+        <img src={projectsBg} alt="" className="w-full h-full object-cover opacity-[0.04] dark:opacity-[0.1]" loading="lazy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
       <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/5 blur-3xl -z-10" />
 

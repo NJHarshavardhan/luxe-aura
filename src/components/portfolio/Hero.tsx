@@ -5,8 +5,8 @@ import AuroraBackground from "./AuroraBackground";
 import FloatingParticles from "./FloatingParticles";
 import MagneticButton from "./MagneticButton";
 import GridPattern from "./GridPattern";
-import ProfileCard from "./ProfileCard";
-import heroBg from "@/assets/hero-bg.jpg";
+import Threads from "./Threads";
+import Lanyard from "./Lanyard";
 import portfolioData from "@/data/portfolio.json";
 
 interface HeroProps {
@@ -29,15 +29,9 @@ const Hero = ({ name, titles, about }: HeroProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Hero background image */}
-      <div className="absolute inset-0 -z-30">
-        <img
-          src={heroBg}
-          alt=""
-          className="w-full h-full object-cover opacity-[0.08] dark:opacity-[0.15]"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
+      {/* Threads background behind name area */}
+      <div className="absolute inset-0 -z-20 opacity-30 dark:opacity-50">
+        <Threads color={[0.55, 0.36, 0.96]} amplitude={1.2} distance={0} enableMouseInteraction={true} />
       </div>
 
       {/* Layered backgrounds */}
@@ -48,7 +42,6 @@ const Hero = ({ name, titles, about }: HeroProps) => {
       {/* Decorative orbs */}
       <div className="absolute top-20 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/8 blur-3xl animate-blob" />
       <div className="absolute bottom-20 left-[10%] w-[350px] h-[350px] rounded-full bg-accent/10 blur-3xl animate-blob animation-delay-2000" />
-      <div className="absolute top-1/3 left-1/4 w-[200px] h-[200px] rounded-full bg-primary/5 blur-2xl animate-float" />
 
       {/* Radial gradient overlay */}
       <div className="absolute inset-0 -z-5 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background))_70%)]" />
@@ -147,19 +140,14 @@ const Hero = ({ name, titles, about }: HeroProps) => {
             </motion.div>
           </div>
 
-          {/* Right: Profile Card */}
+          {/* Right: 3D Lanyard Card */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="w-full max-w-[320px] lg:max-w-[340px] hidden sm:block"
+            className="w-full max-w-[400px] h-[500px] lg:max-w-[420px] lg:h-[550px] hidden sm:block"
           >
-            <ProfileCard
-              name={portfolioData.name}
-              titles={portfolioData.titles}
-              location={portfolioData.location}
-              contact={portfolioData.contact}
-            />
+            <Lanyard position={[0, 0, 30]} gravity={[0, -40, 0]} />
           </motion.div>
         </div>
 

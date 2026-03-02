@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import AnimatedSection from "./AnimatedSection";
 import SpotlightCard from "./SpotlightCard";
 import CodeBackground from "./CodeBackground";
+import skillsBg from "@/assets/skills-bg.jpg";
 
 interface SkillsProps {
   skills: Record<string, string[]>;
@@ -29,9 +30,12 @@ const categoryEmojis: Record<string, string> = {
 
 const Skills = ({ skills }: SkillsProps) => {
   return (
-    <AnimatedSection id="skills" className="py-24 sm:py-32 relative">
+    <AnimatedSection id="skills" className="py-24 sm:py-32 relative overflow-hidden">
       <CodeBackground />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
+      <div className="absolute inset-0 -z-20">
+        <img src={skillsBg} alt="" className="w-full h-full object-cover opacity-[0.04] dark:opacity-[0.08]" loading="lazy" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      </div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl -z-10" />
 
       <div className="container mx-auto px-6">

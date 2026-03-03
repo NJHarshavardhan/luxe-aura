@@ -145,7 +145,7 @@ const Hero = ({ name, titles, about }: HeroProps) => {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="w-full max-w-[400px] h-[500px] lg:max-w-[420px] lg:h-[550px] hidden sm:block"
+            className="w-full max-w-[300px] h-[400px] sm:max-w-[400px] sm:h-[500px] lg:max-w-[420px] lg:h-[550px]"
           >
             <Lanyard position={[0, 0, 30]} gravity={[0, -40, 0]} />
           </motion.div>

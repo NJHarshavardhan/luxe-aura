@@ -17,7 +17,7 @@ interface EducationProps {
 
 const Education = ({ education }: EducationProps) => {
   return (
-    <AnimatedSection id="education" className="py-24 sm:py-32 relative">
+    <AnimatedSection id="education" className="py-16 sm:py-24 relative">
       <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl -z-10" />
 
       <div className="container mx-auto px-6">

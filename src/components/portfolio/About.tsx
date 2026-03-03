@@ -73,7 +73,7 @@ const Counter = ({ value }: { value: string }) => {
 
 const About = ({ about, stats, roles }: AboutProps) => {
   return (
-    <AnimatedSection id="about" className="py-24 sm:py-32 relative overflow-hidden">
+    <AnimatedSection id="about" className="py-16 sm:py-24 relative overflow-hidden">
       <GridPattern />
       <CodeBackground />
       

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const SectionDivider = () => (
-  <div className="relative py-4">
+  <div className="relative py-1">
     <motion.div
       initial={{ scaleX: 0 }}
       whileInView={{ scaleX: 1 }}

@@ -56,7 +56,7 @@ const Contact = ({ contact }: ContactProps) => {
   ];
 
   return (
-    <AnimatedSection id="contact" className="py-24 sm:py-32 relative">
+    <AnimatedSection id="contact" className="py-16 sm:py-24 relative">
       <GridPattern />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10" />
 

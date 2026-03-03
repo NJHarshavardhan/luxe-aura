@@ -36,7 +36,7 @@ const Projects = ({ projects }: ProjectsProps) => {
   const filtered = filter === "All" ? projects : projects.filter((p) => p.type === filter);
 
   return (
-    <AnimatedSection id="projects" className="py-24 sm:py-32 relative overflow-hidden">
+    <AnimatedSection id="projects" className="py-16 sm:py-24 relative overflow-hidden">
       <GridPattern />
       <CodeBackground />
       <div className="absolute inset-0 -z-20">

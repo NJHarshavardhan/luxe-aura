@@ -30,7 +30,7 @@ const categoryEmojis: Record<string, string> = {
 
 const Skills = ({ skills }: SkillsProps) => {
   return (
-    <AnimatedSection id="skills" className="py-24 sm:py-32 relative overflow-hidden">
+    <AnimatedSection id="skills" className="py-16 sm:py-24 relative overflow-hidden">
       <CodeBackground />
       <div className="absolute inset-0 -z-20">
         <img src={skillsBg} alt="" className="w-full h-full object-cover opacity-[0.04] dark:opacity-[0.08]" loading="lazy" />
